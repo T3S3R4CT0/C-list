@@ -6,7 +6,7 @@
 int main() {
      bool err;
 
-     auto list = create_listr(10, sizeof(int), &err);     
+     auto list = create_list(10, sizeof(int), &err);     
      int int_value;
 
      int_value = 6; list_append(&list, &int_value, &err);
