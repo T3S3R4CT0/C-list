@@ -13,6 +13,7 @@ List create_list_from_buffer(size_t capacity, size_t type_size, void* buffer);
 void destroy_list(List* self);
 void list_append_no_resize(List* self, void* value);
 void list_append(List* self, void* value, bool* err);
+void list_insert_no_resize(List* self, void* value, int index);
 void list_remove(List* self, uint32_t index);
 void list_remove_ordered(List* self, uint32_t index);
 
@@ -62,6 +63,41 @@ void list_append(List* self, void* value, bool* err) {
      }
 
      memcpy(self->items + self->type_size * self->length++, value, self->type_size);
+}
+
+void list_insert_no_resize(List* self, void* value, int index) {
+     if (self->length >= self->capacity ||
+         index >= self->length) abort();
+
+     for (int i = index; i < self->length; i++) {
+          memcpy(self->items + i * self->type_size, self->items + (i + 1) * self->type_size, self->type_size);
+     }
+
+     memcpy(self->items + index * self->length, value, self->type_size);
+
+}
+
+void list_insert(List* self, void* value, int index, bool* err) {
+     if (index >= self->length) {
+          *err = true;
+          return;
+     }
+
+     if (self->length >= self->capacity) {
+          auto new_capacity = self->capacity * 2;
+          auto new_buffer = malloc(new_capacity * self->type_size);
+          memcpy(new_buffer, self->items, self->capacity * self->type_size);
+          
+          free(self->items);
+          self->items = new_buffer;
+     }
+
+     for (int i = index; i < self->length; i++) {
+          memcpy(self->items + i * self->type_size, self->items + (i + 1) * self->type_size, self->type_size);
+     }
+
+     memcpy(self->items + index * self->length, value, self->type_size);
+     *err = false;
 }
 
 void list_remove(List* self, uint32_t index) {
