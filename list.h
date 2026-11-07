@@ -67,7 +67,7 @@ void list_append(List* self, void* value, bool* err) {
      memcpy(self->items + self->typeSize * self->length++, value, self->typeSize);
 }
 
-void list_insert_no_resize(List* self, void* value, int index) {
+void list_insertNoResize(List* self, void* value, int index) {
      if (self->length >= self->capacity ||
          index >= self->length) abort();
 
@@ -107,7 +107,7 @@ void list_remove(List* self, uint32_t index) {
      self->length--;
 }
 
-void list_remove_ordered(List* self, uint32_t index) {
+void list_removeOrdered(List* self, uint32_t index) {
      for (int i = index; i < self->length - 1; i++) {
           memcpy(self->items  + self->typeSize * i, self->items + (i + 1) * self->typeSize, self->typeSize);
      }
