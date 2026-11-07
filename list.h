@@ -12,7 +12,7 @@ typedef struct {
 List createList(size_t capacity, size_t type_size, bool* error);
 List initListFromBuffer(size_t capacity, size_t typeSize, void* buffer);
 void destroyList(List* self);
-void list_append_no_resize(List* self, void* value);
+void list_appendNoResize(List* self, void* value);
 void list_append(List* self, void* value, bool* error);
 void list_insertNoResize(List* self, void* value, int index);
 void list_insert(List* self, void* value, int index, bool* error);
