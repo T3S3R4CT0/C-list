@@ -2,6 +2,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "stdint.h"
+
 typedef struct {
      void* items;
      size_t length; 
@@ -36,7 +37,7 @@ List createList(size_t capacity, size_t typeSize, bool* error) {
      };
 }
 
-List createListFromBuffer(size_t capacity, size_t typeSize, void* buffer) {
+List initListFromBuffer(size_t capacity, size_t typeSize, void* buffer) {
      return (List) {
           .items = buffer,
           .length = 0,
